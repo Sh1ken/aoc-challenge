@@ -6,39 +6,39 @@ import (
 
 type Day01 struct{}
 
-func (p Day01) PartA(lines []string) any {
-	floorNumber := 0
-	for _, line := range lines {
-		for _, character := range line {
-			switch character {
-			case '(':
-				floorNumber++
-			case ')':
-				floorNumber--
-			default:
-				fmt.Printf("Character not recognized: %s", string(character))
-			}
+const BasementFloor = -1
+
+func processLine(line string, findBasement bool) (floor int, basementPos int) {
+	for pos, char := range line {
+		switch char {
+		case '(':
+			floor++
+		case ')':
+			floor--
+		default:
+			fmt.Printf("Character not recognized: %c\n", char)
+		}
+
+		if findBasement && floor == BasementFloor {
+			basementPos = pos + 1
+			break
 		}
 	}
-	return floorNumber
+	return floor, basementPos
 }
 
-func (p Day01) PartB(lines []string) any {
-	floorNumber := 0
-	for _, line := range lines {
-		for pos, character := range line {
-			switch character {
-			case '(':
-				floorNumber++
-			case ')':
-				floorNumber--
-			default:
-				fmt.Printf("Character not recognized: %s", string(character))
-			}
-			if floorNumber == -1 {
-				return pos + 1
-			}
-		}
+func (d Day01) PartA(lines []string) any {
+	if len(lines) == 0 {
+		return 0
 	}
-	return 0
+	floor, _ := processLine(lines[0], false)
+	return floor
+}
+
+func (d Day01) PartB(lines []string) any {
+	if len(lines) == 0 {
+		return 0
+	}
+	_, position := processLine(lines[0], true)
+	return position
 }
