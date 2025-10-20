@@ -109,3 +109,20 @@ func Benchmark2015Day06(b *testing.B) {
 		}
 	})
 }
+func Benchmark2015Day07(b *testing.B) {
+	Init()
+	input := aoc.TestInput(2015, 7)
+	p := aoc.NewPuzzle(2015, 7)
+	b.Run("PartA", func(b *testing.B) {
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			p.PartA(input)
+		}
+	})
+	b.Run("PartB", func(b *testing.B) {
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			p.PartB(input)
+		}
+	})
+}
